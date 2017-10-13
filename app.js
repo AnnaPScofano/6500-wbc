@@ -128,20 +128,20 @@ const nlu = new NaturalLanguageUnderstandingV1({
 // Endpoint to be called from the client side
 app.post('/api/message', function(req, res) {
   if (setupError) {
-    return res.json({ output: { text: 'The app failed to initialize properly. Setup and restart needed.' + setupError } });
+    return res.json({ output: { text: 'Falha na inicialização da app. Reiniciar a app.' + setupError } });
   }
 
   if (!workspaceID) {
     return res.json({
       output: {
-        text: 'Conversation initialization in progress. Please try again.'
+        text: 'Conversação iniciando. Por favor tente novamente.'
       }
     });
   }
 
   bankingServices.getPerson(7829706, function(err, person) {
     if (err) {
-      console.log('Error occurred while getting person data ::', err);
+      console.log('Ocorreu um erro buscando a informação de ::', err);
       return res.status(err.code || 500).json(err);
     }
 
@@ -213,7 +213,7 @@ app.post('/api/message', function(req, res) {
       function(err, tone) {
         let toneAngerScore = '';
         if (err) {
-          console.log('Error occurred while invoking Tone analyzer. ::', err);
+          console.log('Ocorreu um erro chamando Tone analyzer. ::', err);
           // return res.status(err.code || 500).json(err);
         } else {
           const emotionTones = tone.document_tone.tone_categories[0].tones;
@@ -618,7 +618,7 @@ function checkForLookupRequests(data, callback) {
       console.log('************** Discovery *************** InputText : ' + payload.input.text);
       let discoveryResponse = '';
       if (!discoveryParams) {
-        console.log('Discovery is not ready for query.');
+        console.log('Discovery não está pronto para responder.');
         discoveryResponse = 'Sorry, currently I do not have a response. Discovery initialization is in progress. Please try again later.';
         if (data.output.text) {
           data.output.text.push(discoveryResponse);
